@@ -1,5 +1,5 @@
 ---
 - name: Restart acpid
   ansible.builtin.service:
-    name: "{{ acpid_daemon }}"
+    name: "{{ acpid_service }}"
     state: restarted
