@@ -13,7 +13,7 @@
     dest: "{{ acpid_events_dir }}/{{ item.name }}"
     mode: "0644"
   loop: "{{ acpid_events_list }}"
-  when: not 'state' in item or item.state == 'present'
+  when: "not 'state' in item or item.state == 'present'"
   notify: Restart acpid
 
 - name: Remove acpid event files
@@ -21,7 +21,7 @@
     path: "{{ acpid_events_dir }}/{{ item.name }}"
     state: absent
   loop: "{{ acpid_events_list }}"
-  when: item.state == 'absent'
+  when: "'state' in item and item.state == 'absent'"
   notify: Restart acpid
 
 - name: Enable and start acpid service
