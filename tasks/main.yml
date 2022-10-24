@@ -14,7 +14,7 @@
     mode: "0644"
   loop: "{{ acpid_events_list }}"
   when: not 'state' in item or item.state == 'present'
-  notify: restart acpid
+  notify: Restart acpid
 
 - name: Remove acpid event files
   ansible.builtin.file:
