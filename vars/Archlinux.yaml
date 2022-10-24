@@ -1,0 +1,5 @@
+---
+acpid_package: acpid
+acpid_service: acpid
+acpid_config_dir: "/etc/acpi"
+acpid_events_dir: "/etc/acpi/events"

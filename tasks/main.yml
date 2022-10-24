@@ -1,2 +1,31 @@
 ---
-# tasks file for acpid
+- name: Include OS-specific variables
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] }}.yaml"
+
+- name: Install acpid package
+  ansible.builtin.package:
+    name: "{{ acpid_package }}"
+    state: present
+
+- name: Generate acpid event files
+  ansible.builtin.template:
+    src: event.j2
+    dest: "{{ acpid_events_dir }}/{{ item.name }}"
+    mode: "0644"
+  loop: "{{ acpid_events_list }}"
+  when: not 'state' in item or item.state == 'present'
+  notify: restart acpid
+
+- name: Remove acpid event files
+  ansible.builtin.file:
+    path: "{{ acpid_events_dir }}/{{ item.name }}"
+    state: absent
+  loop: "{{ acpid_events_list }}"
+  when: item.state == 'absent'
+  notify: Restart acpid
+
+- name: Enable and start acpid service
+  ansible.builtin.service:
+    name: "{{ acpid_service }}"
+    enabled: true
+    state: started

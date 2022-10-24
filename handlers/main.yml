@@ -1,2 +1,5 @@
 ---
-# handlers file for acpid
+- name: Restart acpid
+  ansible.builtin.service:
+    name: "{{ acpid_daemon }}"
+    state: restarted
